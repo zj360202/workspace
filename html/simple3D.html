@@ -1,10 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>simple3D</title>
+    <style>
+        body { margin: 0; }
+        canvas { width: 100%; height: 100% }
+    </style>
 </head>
 <body>
+<script type="text/javascript" src="../js/three.js"></script>
+<script>
+    // 新建场景
+    let scene = new THREE.Scene();
+    // 新建相机  PerspectiveCamera 透视相机（举例说明：对墙体设置好法线后(默认发现)，可以在房屋外面看到房屋里面的情况，迎面的墙是透明的）
+    // 参数1：查看角度
+    // 参数2：视野宽高比
+    // 参数3：近视野值(低于此值得位置就看不到了)
+    // 参数4：远视野值(远于此值得距离就看不到了)
+    let camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
+    // 新建渲染
+    let renderer = new THREE.WebGLRenderer();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    document.body.appendChild( renderer.domElement );
+
+    // 新建几何体
+    let geometry = new THREE.BoxGeometry( 1, 1, 1 );
+    // 新建材料
+    let material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+    // 新建网丝 (就是将几何体与材料合成效果的对象，材料可以是一个，或是一组)
+    let cube = new THREE.Mesh( geometry, material );
+    camera.position.z = 5;
+
+    // 添加到场景中去
+    scene.add( cube );
+
+    let animate = function () {
+        requestAnimationFrame( animate );
+
+        // 动画规则
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+
+        // 渲染线上
+        renderer.render( scene, camera );
+    };
+    animate();
+</script>
 </body>
 </html>
